@@ -50,7 +50,7 @@ pdf-watermark-remover/
 ## 🚀 Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/pdf-watermark-remover.git
+git clone https://github.com/Destroyer369/pdf-watermark-remover
 cd pdf-watermark-remover
 
 python -m venv .venv
