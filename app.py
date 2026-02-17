@@ -34,12 +34,21 @@ def main() -> None:
     uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 
     # --- Watermark input ---
-    watermark_input = st.text_area(
+    if "watermark_input" not in st.session_state:
+        st.session_state.watermark_input = ""
+
+    st.text_area(
         "Watermark text(s) to remove (one per line)",
         height=120,
         placeholder="CONFIDENTIAL\nDRAFT\nSample watermark text",
+        key="watermark_input",
     )
-    watermark_list = [wm.strip() for wm in watermark_input.splitlines() if wm.strip()]
+
+    watermark_list = [
+        wm.strip()
+        for wm in st.session_state.watermark_input.splitlines()
+        if wm.strip()
+    ]
 
     if not uploaded_file:
         st.info("Please upload a PDF file to get started.")
@@ -49,36 +58,41 @@ def main() -> None:
     input_pdf_path = save_uploaded_file(uploaded_file.read())
 
     # --- Check button ---
-    if st.button("🔍 Check for watermarks", disabled=not watermark_list):
-        results = check_watermarks_in_pdf(input_pdf_path, watermark_list)
-        st.subheader("Detection results")
-        for wm, found in results.items():
-            icon = "✅" if found else "❌"
-            st.write(f"{icon} **'{wm}'**: {'Found' if found else 'Not found'}")
+    if st.button("🔍 Check for watermarks"):
+        if not watermark_list:
+            st.warning("Please enter at least one watermark text.")
+        else:
+            results = check_watermarks_in_pdf(input_pdf_path, watermark_list)
+            st.subheader("Detection results")
+            for wm, found in results.items():
+                icon = "✅" if found else "❌"
+                st.write(f"{icon} **'{wm}'**: {'Found' if found else 'Not found'}")
 
     st.divider()
 
     # --- Remove button ---
-    if st.button("🗑️ Remove watermarks & download", disabled=not watermark_list):
-        output_pdf_path = os.path.join(
-            tempfile.gettempdir(),
-            f"cleaned_{os.path.basename(input_pdf_path)}",
-        )
-
-        with st.spinner("Processing PDF…"):
-            if use_redactor:
-                remove_watermarks_redactor(input_pdf_path, output_pdf_path, watermark_list)
-            else:
-                remove_watermarks_pymupdf(input_pdf_path, output_pdf_path, watermark_list)
-
-        st.success("✅ Watermarks removed successfully!")
-        with open(output_pdf_path, "rb") as f:
-            st.download_button(
-                label="⬇️ Download cleaned PDF",
-                data=f,
-                file_name="cleaned_output.pdf",
-                mime="application/pdf",
+    if st.button("🗑️ Remove watermarks & download"):
+        if not watermark_list:
+            st.warning("Please enter at least one watermark text.")
+        else:
+            output_pdf_path = os.path.join(
+                tempfile.gettempdir(),
+                f"cleaned_{os.path.basename(input_pdf_path)}",
             )
+            with st.spinner("Processing PDF…"):
+                if use_redactor:
+                    remove_watermarks_redactor(input_pdf_path, output_pdf_path, watermark_list)
+                else:
+                    remove_watermarks_pymupdf(input_pdf_path, output_pdf_path, watermark_list)
+
+            st.success("✅ Watermarks removed successfully!")
+            with open(output_pdf_path, "rb") as f:
+                st.download_button(
+                    label="⬇️ Download cleaned PDF",
+                    data=f,
+                    file_name="cleaned_output.pdf",
+                    mime="application/pdf",
+                )
 
 
 if __name__ == "__main__":
