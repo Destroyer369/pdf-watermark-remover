@@ -1,6 +1,6 @@
 # 🧹 PDF Watermark Remover
 
-A Python tool to remove **text** and **image** watermarks from PDF files.
+A Python tool to remove **text** and **image-text** watermarks from PDF files.
 Available as both a **Streamlit web app** and a **command-line interface (CLI)**.
 
 ## ⚖️ Legal Disclaimer
