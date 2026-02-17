@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Remove text and image watermarks from PDF files via CLI or Streamlit web app."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { text = "AGPL-3.0" }
 dependencies = [
     "PyMuPDF>=1.23.0",
     "pdf-redactor>=0.1.0",

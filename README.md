@@ -3,6 +3,18 @@
 A Python tool to remove **text** and **image** watermarks from PDF files.
 Available as both a **Streamlit web app** and a **command-line interface (CLI)**.
 
+## ⚖️ Legal Disclaimer
+
+This tool is intended for **legitimate use cases only**, such as:
+
+- Removing watermarks from documents you own or have created
+- Processing documents for which you have explicit permission
+- Internal/corporate document workflows
+
+The authors are **not responsible** for any misuse of this software.
+Users are solely responsible for ensuring their usage complies with
+applicable copyright laws and terms of service of any content they process.
+
 ## ✨ Features
 
 - Remove text watermarks (single or multiple at once)
@@ -96,6 +108,8 @@ pytest tests/ -v
 | [pdf-redactor](https://github.com/JoshData/pdf-redactor) | Content-stream level text redaction                   |
 | [Streamlit](https://streamlit.io/)                       | Web application framework                             |
 
-## 📄 License
 
-MIT License. See [LICENSE](LICENSE) for details.
+## License
+
+Licensed under **GNU AGPL v3**.
+This project uses [PyMuPDF](https://pymupdf.readthedocs.io/) which is licensed under AGPL v3.
